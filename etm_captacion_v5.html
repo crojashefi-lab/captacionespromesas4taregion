@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ETM · Captación de Talentos IND</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:  #0A2342;
+  --blue:  #1A5276;
+  --teal:  #1ABC9C;
+  --teal2: #17A589;
+  --amber: #F39C12;
+  --red:   #E74C3C;
+  --green: #27AE60;
+  --white: #FFFFFF;
+  --bg:    #EEF2F7;
+  --card:  #FFFFFF;
+  --brd:   #D1DCE8;
+  --txt:   #0E1F33;
+  --muted: #64788F;
+  --inp:   #F5F8FB;
+  --r:     14px;
+  --rs:    9px;
+  --sh:    0 2px 10px rgba(10,35,66,.09);
+  --sh2:   0 6px 28px rgba(10,35,66,.15);
+  --font:  'Sora', sans-serif;
+  --mono:  'JetBrains Mono', monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--font);background:var(--bg);color:var(--txt);min-height:100vh;font-size:15px;overscroll-behavior:none}
+
+/* ── HEADER ── */
+.hdr{background:var(--navy);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 20px rgba(0,0,0,.3)}
+.hdr-l{display:flex;align-items:center;gap:10px}
+.hdr-logo{width:34px;height:34px;background:var(--teal);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.hdr-name{color:#fff;font-size:14px;font-weight:700}
+.hdr-sub{color:rgba(255,255,255,.45);font-size:11px;margin-top:1px}
+.hdr-r{display:flex;align-items:center;gap:8px}
+.conn-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 6px var(--teal)}
+.conn-dot.off{background:var(--amber);box-shadow:0 0 6px var(--amber)}
+.conn-lbl{font-size:11px;color:rgba(255,255,255,.5);font-family:var(--mono)}
+
+/* ── SCREENS ── */
+.screen{display:none}
+.screen.active{display:block;animation:fu .25s ease}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.wrap{max-width:580px;margin:0 auto;padding:16px 14px 80px}
+
+/* ── ROLE ── */
+.role-intro{text-align:center;padding:24px 0 18px}
+.role-intro h2{font-size:22px;font-weight:800;color:var(--navy)}
+.role-intro p{color:var(--muted);font-size:13px;margin-top:4px}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.role-card{background:var(--card);border:2.5px solid transparent;border-radius:var(--r);padding:22px 14px 18px;text-align:center;cursor:pointer;box-shadow:var(--sh);transition:all .18s}
+.role-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.role-card.admin{border-color:var(--navy)}
+.role-card.eval{border-color:var(--teal)}
+.role-icon{font-size:32px;margin-bottom:10px}
+.role-card h3{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.role-card p{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* ── CARDS ── */
+.card{background:var(--card);border-radius:var(--r);padding:18px 16px;margin-bottom:13px;box-shadow:var(--sh);border:1px solid var(--brd)}
+.ct{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:13px;display:flex;align-items:center;gap:6px}
+.ct-bar{width:3px;height:13px;border-radius:2px;display:inline-block;flex-shrink:0}
+
+/* ── FORM ── */
+.field{margin-bottom:12px}
+.field:last-child{margin-bottom:0}
+label{display:block;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:5px}
+.req{color:var(--red);margin-left:2px}
+.hint{font-weight:400;color:var(--muted);font-size:11px;margin-left:4px}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;background:var(--inp);border:1.5px solid var(--brd);border-radius:var(--rs);padding:11px 12px;font-family:var(--font);font-size:15px;color:var(--txt);transition:border-color .15s,box-shadow .15s;appearance:none;-webkit-appearance:none}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(26,188,156,.14);background:#fff}
+input.err{border-color:var(--red)}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%2364788F' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:34px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.r3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+/* ── BUTTONS ── */
+.btn{width:100%;padding:15px;border:none;border-radius:var(--r);font-family:var(--font);font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .18s;letter-spacing:.01em}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
+.btn:active{transform:translateY(0)}
+.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.btn-primary{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;box-shadow:0 4px 14px rgba(10,35,66,.35);margin-top:10px}
+.btn-teal{background:linear-gradient(135deg,var(--teal2),var(--teal));color:#fff;box-shadow:0 4px 14px rgba(26,188,156,.35);margin-top:10px}
+.btn-ghost{background:#fff;border:2px solid var(--brd);color:var(--navy);font-size:14px;margin-top:8px}
+.btn-ghost:hover{border-color:var(--navy)}
+
+/* ── SEARCH ── */
+.search-wrap{position:relative;margin-bottom:8px}
+.search-wrap input{padding-left:40px;font-size:16px;border:2px solid var(--teal);background:#fff}
+.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:17px;pointer-events:none}
+.sr-box{background:#fff;border:1.5px solid var(--brd);border-radius:var(--rs);overflow:hidden;box-shadow:var(--sh2);max-height:280px;overflow-y:auto;display:none}
+.sr-box.open{display:block}
+.sr-item{padding:14px;cursor:pointer;font-size:15px;font-weight:500;border-bottom:1px solid #f0f4f8;display:flex;align-items:center;justify-content:space-between;transition:background .1s}
+.sr-item:last-child{border-bottom:none}
+.sr-item:hover,.sr-item:active{background:rgba(26,188,156,.08)}
+.sr-name{color:var(--navy)}
+.sr-tag{font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(26,188,156,.12);color:var(--teal2);font-weight:600}
+
+/* ── SELECTED ATHLETE ── */
+.sel-ath{background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--rs);padding:13px 14px;color:#fff;display:none;align-items:center;gap:10px;margin-bottom:12px}
+.sel-ath.show{display:flex}
+.sa-av{width:40px;height:40px;background:var(--teal);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0}
+.sa-name{font-size:15px;font-weight:700}
+.sa-meta{font-size:11px;color:rgba(255,255,255,.55);margin-top:1px}
+.sa-clear{margin-left:auto;background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:6px;padding:5px 12px;font-size:12px;cursor:pointer;font-family:var(--font);font-weight:600}
+
+/* ── ATTEMPTS ── */
+.attempts{display:grid;gap:8px;margin-bottom:8px}
+.att3{grid-template-columns:1fr 1fr 1fr}
+.att2{grid-template-columns:1fr 1fr}
+.att-box label{font-size:10px;color:var(--muted);text-align:center;display:block;margin-bottom:4px}
+.att-box input{text-align:center;font-family:var(--mono);font-size:20px;font-weight:600;padding:13px 6px}
+.att-box input.best{border-color:var(--teal);background:rgba(26,188,156,.07);color:var(--navy)}
+
+/* ── BEST BAR ── */
+.best-bar{background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--rs);padding:12px 16px;display:none;align-items:center;justify-content:space-between;color:#fff}
+.best-bar.show{display:flex}
+.bb-lbl{font-size:11px;color:rgba(255,255,255,.55)}
+.bb-val{font-family:var(--mono);font-size:26px;font-weight:600;color:var(--teal)}
+.bb-unit{font-size:12px;color:rgba(255,255,255,.45);margin-left:3px}
+
+/* ── STATION SELECTOR ── */
+.tipo-tabs{display:flex;gap:0;margin-bottom:16px;border:2px solid var(--brd);border-radius:var(--rs);overflow:hidden}
+.tipo-tab{flex:1;padding:12px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;background:#fff;color:var(--muted);border:none;font-family:var(--font);transition:all .15s}
+.tipo-tab.active{background:var(--navy);color:#fff}
+
+.st-section-label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;margin-top:4px}
+.st-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.st-card{background:var(--card);border:2.5px solid var(--brd);border-radius:var(--r);padding:16px 12px 14px;text-align:center;cursor:pointer;box-shadow:var(--sh);transition:all .18s;position:relative}
+.st-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.st-card:active{transform:translateY(0)}
+.st-ico{font-size:26px;margin-bottom:6px}
+.st-num{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:3px}
+.st-name{font-size:13px;font-weight:700;color:var(--navy)}
+.st-sub{font-size:10px;color:var(--muted);margin-top:3px;line-height:1.4}
+.st-card.full-width{grid-column:1/-1}
+
+/* ── ACTIVE STATION HEADER ── */
+.stn-hdr{border-radius:var(--r);padding:15px 18px;margin-bottom:14px;color:#fff;display:flex;align-items:center;gap:12px}
+.stn-ico{font-size:26px}
+.stn-info .stn-title{font-size:17px;font-weight:700}
+.stn-info .stn-sub{font-size:11px;color:rgba(255,255,255,.6);margin-top:2px}
+.stn-cnt{margin-left:auto;text-align:right}
+.stn-n{font-family:var(--mono);font-size:28px;font-weight:600;color:rgba(255,255,255,.95)}
+.stn-nl{font-size:10px;color:rgba(255,255,255,.45)}
+
+/* ── NAVETTE ── */
+.nav-res{background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--rs);padding:13px 16px;display:none;margin-top:8px}
+.nav-res.show{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.nav-v{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--teal)}
+.nav-l{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px}
+
+/* ── PHV ── */
+.phv-box{background:linear-gradient(135deg,#0A2342,#1A5276);border-radius:var(--rs);padding:14px;display:none;margin-top:10px}
+.phv-box.show{display:block}
+.phv-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center}
+.phv-v{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--teal)}
+.phv-l{font-size:10px;color:rgba(255,255,255,.5);margin-top:2px}
+.phv-note{font-size:10px;color:rgba(255,255,255,.35);text-align:center;margin-top:10px}
+.cajon-tag{font-size:11px;background:rgba(243,156,18,.12);border:1px solid rgba(243,156,18,.3);color:var(--amber);border-radius:6px;padding:6px 10px;margin-top:6px;line-height:1.5}
+
+/* ── FMS ── */
+.fms-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.fms-btn{border:2px solid var(--brd);border-radius:var(--rs);padding:16px 6px;text-align:center;cursor:pointer;background:var(--inp);transition:all .15s;font-family:var(--font)}
+.fms-btn:hover{transform:scale(1.04)}
+.fms-n{font-size:24px;font-weight:800;color:var(--navy)}
+.fms-l{font-size:10px;color:var(--muted);margin-top:3px}
+.fms-btn.s0{border-color:var(--red);background:rgba(231,76,60,.07)}.fms-btn.s0 .fms-n{color:var(--red)}
+.fms-btn.s1{border-color:var(--amber);background:rgba(243,156,18,.07)}.fms-btn.s1 .fms-n{color:var(--amber)}
+.fms-btn.s2{border-color:#2980B9;background:rgba(41,128,185,.07)}.fms-btn.s2 .fms-n{color:#2980B9}
+.fms-btn.s3{border-color:var(--teal2);background:rgba(23,165,137,.07)}.fms-btn.s3 .fms-n{color:var(--teal2)}
+
+/* ── SUCCESS ── */
+.suc-wrap{text-align:center;padding:50px 16px}
+.suc-ico{width:76px;height:76px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-size:34px;animation:pop .4s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.suc-ico.ok{background:linear-gradient(135deg,var(--teal),var(--green));box-shadow:0 8px 28px rgba(26,188,156,.35)}
+.suc-wrap h2{font-size:22px;font-weight:800;color:var(--navy);margin-bottom:6px}
+.suc-wrap p{font-size:13px;color:var(--muted)}
+.suc-name{display:inline-block;background:rgba(26,188,156,.12);color:var(--teal2);font-weight:700;padding:5px 16px;border-radius:20px;font-size:15px;margin:10px 0 22px}
+.cnt-bar{background:var(--navy);border-radius:var(--r);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;color:#fff;margin-bottom:12px}
+.cnt-bar .cl{font-size:12px;color:rgba(255,255,255,.5)}
+.cnt-bar .cv{font-family:var(--mono);font-size:28px;color:var(--teal);font-weight:600}
+
+/* ── ADMIN ── */
+.mode-tabs{display:flex;gap:0;margin-bottom:14px;border:1.5px solid var(--brd);border-radius:var(--rs);overflow:hidden}
+.mtab{flex:1;padding:11px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;background:#fff;color:var(--muted);border:none;font-family:var(--font);transition:all .15s}
+.mtab.active{background:var(--navy);color:#fff}
+.nomina-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid #f0f4f8;font-size:14px}
+.nomina-item:last-child{border-bottom:none}
+.ni-n{font-weight:600;color:var(--navy)}
+.ni-del{background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:2px 8px}
+.prog-wrap{overflow-x:auto}
+table.prog{width:100%;border-collapse:collapse;font-size:11px}
+table.prog th{background:var(--navy);color:#fff;padding:7px 8px;text-align:center;font-size:10px;letter-spacing:.05em;white-space:nowrap}
+table.prog td{padding:7px 8px;border-bottom:1px solid #f0f4f8;text-align:center;vertical-align:middle}
+table.prog tr:nth-child(even) td{background:#f8fafc}
+table.prog td:first-child{text-align:left;font-weight:600;color:var(--navy);white-space:nowrap}
+.pc{width:18px;height:18px;border-radius:4px;display:inline-flex;align-items:center;justify-content:center;font-size:10px}
+.pc.done{background:rgba(26,188,156,.15);color:var(--teal2)}
+.pc.pend{background:#f0f4f8;color:var(--muted)}
+
+/* ── PASSWORD SCREEN ── */
+.pwd-wrap{max-width:340px;margin:0 auto;padding:60px 20px 0;text-align:center}
+.pwd-icon{font-size:48px;margin-bottom:16px}
+.pwd-wrap h2{font-size:20px;font-weight:800;color:var(--navy);margin-bottom:6px}
+.pwd-wrap p{font-size:13px;color:var(--muted);margin-bottom:24px}
+.pwd-input-wrap{position:relative;margin-bottom:12px}
+.pwd-input-wrap input{font-size:18px;letter-spacing:0.15em;text-align:center;border:2px solid var(--brd);border-radius:var(--rs);padding:14px 44px 14px 14px;background:#fff}
+.pwd-input-wrap input:focus{border-color:var(--navy);box-shadow:0 0 0 3px rgba(10,35,66,.12)}
+.pwd-eye{position:absolute;right:13px;top:50%;transform:translateY(-50%);cursor:pointer;font-size:18px;color:var(--muted);background:none;border:none;padding:2px 4px}
+.pwd-error{font-size:12px;color:var(--red);font-weight:600;min-height:18px;margin-bottom:8px}
+.pwd-attempts{font-size:11px;color:var(--muted);margin-top:10px}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+
+/* ── MISC ── */
+.sep{height:1px;background:var(--brd);margin:13px 0}
+.back-btn{width:36px;height:36px;background:var(--card);border:1px solid var(--brd);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--navy);transition:all .15s;flex-shrink:0}
+.back-btn:hover{background:var(--navy);color:#fff}
+.sec-hdr{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.sec-hdr .si h2{font-size:18px;font-weight:700;color:var(--navy)}
+.sec-hdr .si p{font-size:12px;color:var(--muted);margin-top:1px}
+.pill{display:inline-flex;align-items:center;background:rgba(26,188,156,.1);color:var(--teal2);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;font-family:var(--mono);margin-left:6px}
+.info-box{background:rgba(26,188,156,.07);border:1px solid rgba(26,188,156,.2);border-radius:var(--rs);padding:10px 12px;font-size:12px;color:var(--muted);line-height:1.6}
+.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--navy);color:#fff;padding:11px 20px;border-radius:30px;font-size:13px;font-weight:500;z-index:999;transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;box-shadow:0 8px 28px rgba(0,0,0,.28);max-width:92vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.err{background:var(--red)}
+.toast.ok{background:var(--green)}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-l">
+    <div class="hdr-logo">🏃</div>
+    <div>
+      <div class="hdr-name">ETM · Captación de Talentos</div>
+      <div class="hdr-sub">IND Promesas Chile · Coquimbo &nbsp;·&nbsp; MSc Claudio Rojas Hidalgo</div>
+    </div>
+  </div>
+  <div class="hdr-r">
+    <div class="conn-dot" id="connDot"></div>
+    <div class="conn-lbl" id="connLbl">—</div>
+  </div>
+</header>
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════════
+     S-PWD: CLAVE METODÓLOGO
+══════════════════════════════════════ -->
+<div class="screen" id="s-pwd">
+  <div class="wrap">
+    <div class="pwd-wrap">
+      <div class="pwd-icon">🔒</div>
+      <h2>Acceso Metodólogo</h2>
+      <p>Ingresa la clave para acceder al panel de administración</p>
+      <div class="pwd-input-wrap">
+        <input type="password" id="pwdInput" placeholder="••••••••••"
+               maxlength="30" autocomplete="off"
+               onkeydown="if(event.key==='Enter')checkPwd()"/>
+        <button class="pwd-eye" onclick="togglePwd()" id="pwdEye">👁️</button>
+      </div>
+      <div class="pwd-error" id="pwdError"></div>
+      <button class="btn btn-primary" style="margin-top:0" onclick="checkPwd()">
+        Entrar al panel
+      </button>
+      <button class="btn btn-ghost" onclick="goRole()">← Volver</button>
+      <div class="pwd-attempts" id="pwdAttempts"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     S0 CONFIG
+══════════════════════════════════════ -->
+<div class="screen active" id="s-config">
+  <div class="wrap"><br>
+    <div class="card">
+      <div class="ct"><span class="ct-bar" style="background:var(--teal)"></span>Configuración</div>
+      <div class="field">
+        <label>URL del Web App (Google Apps Script) <span class="req">*</span></label>
+        <input type="text" id="cfgUrl" placeholder="https://script.google.com/macros/s/..."/>
+      </div>
+      <div class="info-box" style="margin:8px 0 14px">Pega aquí la URL de tu Apps Script publicado como Web App. Solo se configura una vez.</div>
+      <button class="btn btn-teal" onclick="saveConfig()">✓ &nbsp;Guardar y continuar</button>
+      <button class="btn btn-ghost" onclick="skipConfig()">Continuar sin conexión (modo local)</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     S1 ROL
+══════════════════════════════════════ -->
+<div class="screen" id="s-role">
+  <div class="wrap">
+    <div class="role-intro">
+      <h2>¿Cuál es tu rol?</h2>
+      <p>Selecciona cómo participarás en esta jornada</p>
+    </div>
+    <div class="role-grid">
+      <div class="role-card admin" onclick="goPwd()">
+        <div class="role-icon">🗂️</div>
+        <h3>Metodólogo</h3>
+        <p>Carga la nómina, configura la jornada y monitorea el progreso</p>
+      </div>
+      <div class="role-card eval" onclick="goEval()">
+        <div class="role-icon">📋</div>
+        <h3>Evaluador ETM</h3>
+        <p>Registro en tu estación fija</p>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:11px;color:var(--muted);margin-bottom:5px">Jornada activa</div>
+      <div style="font-size:15px;font-weight:700;color:var(--navy)" id="jorLabel">Sin jornada configurada</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:3px" id="nomLabel">Nómina: 0 postulantes</div>
+    </div>
+    <button class="btn btn-ghost" style="margin-top:0" onclick="goConfig()">⚙️ Configuración</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     S2 ADMIN
+══════════════════════════════════════ -->
+<div class="screen" id="s-admin">
+  <div class="wrap"><br>
+    <div class="sec-hdr">
+      <div class="back-btn" onclick="goRole()">←</div>
+      <div class="si"><h2>Panel Metodólogo</h2><p>Nómina · Jornada · Progreso</p></div>
+    </div>
+    <div class="mode-tabs">
+      <button class="mtab active" onclick="adminTab('nomina',this)">📋 Nómina</button>
+      <button class="mtab" onclick="adminTab('jornada',this)">🗓️ Jornada</button>
+      <button class="mtab" onclick="adminTab('progreso',this)">📊 Progreso</button>
+    </div>
+
+    <!-- NUEVA JORNADA -->
+    <div style="background:linear-gradient(135deg,#0A2342,#1A5276);border-radius:var(--r);padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div>
+        <div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:2px">Jornada activa</div>
+        <div style="font-size:14px;font-weight:700;color:#fff" id="adminJornadaLabel">Sin configurar</div>
+        <div style="font-size:11px;color:var(--teal);margin-top:2px" id="adminNominaLabel">Nómina: 0 postulantes</div>
+      </div>
+      <button onclick="nuevaJornada()" style="background:var(--red);border:none;border-radius:var(--rs);padding:10px 14px;color:#fff;font-family:var(--font);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0">
+        🔄 Nueva jornada
+      </button>
+    </div>
+
+    <!-- NÓMINA -->
+    <div id="tab-nomina">
+      <div class="card">
+        <div class="ct"><span class="ct-bar" style="background:var(--teal)"></span>Cargar nómina</div>
+        <div class="field">
+          <label>Pega los nombres <span class="hint">(uno por línea, desde Excel)</span></label>
+          <textarea id="nominaPaste" rows="7" placeholder="Martínez, Carlos&#10;Mardones, Valentina&#10;Pérez, Felipe&#10;..."></textarea>
+        </div>
+        <button class="btn btn-teal" onclick="cargarNomina()">⬆ &nbsp;Cargar nómina</button>
+      </div>
+      <div class="card" id="nominaCard" style="display:none">
+        <div class="ct"><span class="ct-bar" style="background:var(--navy)"></span>Postulantes <span class="pill" id="nominaBadge">0</span></div>
+        <div id="nominaList"></div>
+        <div class="sep"></div>
+        <button class="btn btn-ghost" style="margin-top:0;font-size:13px" onclick="limpiarNomina()">🗑 Limpiar nómina</button>
+      </div>
+    </div>
+
+    <!-- JORNADA -->
+    <div id="tab-jornada" style="display:none">
+      <div class="card">
+        <div class="ct"><span class="ct-bar" style="background:var(--blue)"></span>Datos de la jornada</div>
+        <div class="field">
+          <label>Tipo de captación <span class="req">*</span></label>
+          <select id="jorTipo" onchange="onTipoChange()">
+            <option value="">Seleccionar...</option>
+            <option value="MASIVA">Captación Masiva</option>
+            <option value="FOCALIZADA">Captación Focalizada</option>
+          </select>
+        </div>
+        <div id="deporteRow" style="display:none" class="field">
+          <label>Deporte / Disciplina <span class="req">*</span></label>
+          <input type="text" id="jorDeporte" placeholder="Ej: Halterofilia Infantil"/>
+        </div>
+        <div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="jorFecha"/></div>
+        <div class="field"><label>Recinto <span class="req">*</span></label><input type="text" id="jorRecinto" placeholder="Ej: Pabellón IND La Serena"/></div>
+        <div class="r2">
+          <div class="field"><label>Comuna</label><input type="text" id="jorComuna" placeholder="La Serena"/></div>
+          <div class="field"><label>Metodólogo/a</label><input type="text" id="jorMet" placeholder="Nombre"/></div>
+        </div>
+        <button class="btn btn-primary" onclick="guardarJornada()">✓ &nbsp;Guardar jornada</button>
+      </div>
+    </div>
+
+    <!-- PROGRESO -->
+    <div id="tab-progreso" style="display:none">
+      <div class="card">
+        <div class="ct"><span class="ct-bar" style="background:var(--amber)"></span>Progreso en tiempo real</div>
+        <button class="btn btn-ghost" style="margin-top:0;font-size:13px;margin-bottom:12px" onclick="cargarProgreso()">🔄 Actualizar</button>
+        <div id="progresoEl"><p style="color:var(--muted);font-size:13px;text-align:center;padding:20px">Toca Actualizar para cargar</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     S3 SELECTOR DE ESTACIÓN
+══════════════════════════════════════ -->
+<div class="screen" id="s-estacion">
+  <div class="wrap"><br>
+    <div class="sec-hdr">
+      <div class="back-btn" onclick="goRole()">←</div>
+      <div class="si"><h2>Selecciona tu estación</h2><p id="estJornadaLabel">—</p></div>
+    </div>
+
+    <!-- TABS masiva / focalizada -->
+    <div class="tipo-tabs" id="tipoTabs">
+      <button class="tipo-tab active" onclick="showTipo('masiva',this)" id="tabMasiva">👥 Masiva</button>
+      <button class="tipo-tab" onclick="showTipo('focalizada',this)" id="tabFoc">🎯 Focalizada</button>
+    </div>
+
+    <!-- MASIVA: 7 estaciones -->
+    <div id="estMasiva">
+      <div class="st-grid">
+        <div class="st-card full-width" style="border-color:#1A5276" onclick="selectSt('M1')">
+          <div class="st-ico">📐</div>
+          <div class="st-num" style="color:#1A5276">Est. 1</div>
+          <div class="st-name">PHV · Recepción</div>
+          <div class="st-sub">Fecha nac · Sexo · Peso · Talla · T.Sentado (cajón −40cm) · Mirwald 2002</div>
+        </div>
+        <div class="st-card" style="border-color:#1ABC9C" onclick="selectSt('M2')">
+          <div class="st-ico">🤸</div>
+          <div class="st-num" style="color:#1ABC9C">Est. 2</div>
+          <div class="st-name">Seat & Reach</div>
+          <div class="st-sub">3 intentos → mejor</div>
+        </div>
+        <div class="st-card" style="border-color:#F39C12" onclick="selectSt('M3')">
+          <div class="st-ico">🦘</div>
+          <div class="st-num" style="color:#F39C12">Est. 3</div>
+          <div class="st-name">Salto Largo</div>
+          <div class="st-sub">3 intentos → mejor</div>
+        </div>
+        <div class="st-card" style="border-color:#8E44AD" onclick="selectSt('M4')">
+          <div class="st-ico">⚡</div>
+          <div class="st-num" style="color:#8E44AD">Est. 4</div>
+          <div class="st-name">Agilidad T</div>
+          <div class="st-sub">2 intentos → menor tiempo · Múltiples evaluadores permitidos</div>
+        </div>
+        <div class="st-card" style="border-color:#E74C3C" onclick="selectSt('M5')">
+          <div class="st-ico">🏐</div>
+          <div class="st-num" style="color:#E74C3C">Est. 5</div>
+          <div class="st-name">Balón Medicinal</div>
+          <div class="st-sub">3 intentos → mejor</div>
+        </div>
+        <div class="st-card" style="border-color:#2980B9" onclick="selectSt('M6')">
+          <div class="st-ico">💨</div>
+          <div class="st-num" style="color:#2980B9">Est. 6</div>
+          <div class="st-name">Velocidad 30m</div>
+          <div class="st-sub">2 intentos → menor tiempo · Múltiples evaluadores permitidos</div>
+        </div>
+        <div class="st-card full-width" style="border-color:#C0392B" onclick="selectSt('M7')">
+          <div class="st-ico">🏃</div>
+          <div class="st-num" style="color:#C0392B">Est. 7</div>
+          <div class="st-name">Course Navette</div>
+          <div class="st-sub">Etapa + Palier · VO₂máx calculado · Múltiples evaluadores permitidos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOCALIZADA: 6 estaciones -->
+    <div id="estFocalizada" style="display:none">
+      <div class="st-grid">
+        <div class="st-card" style="border-color:#27AE60" onclick="selectSt('F1')">
+          <div class="st-ico">🦵</div>
+          <div class="st-num" style="color:#27AE60">Est. 1</div>
+          <div class="st-name">SJ</div>
+          <div class="st-sub">Squat Jump · 3 intentos</div>
+        </div>
+        <div class="st-card" style="border-color:#1ABC9C" onclick="selectSt('F2')">
+          <div class="st-ico">🦵</div>
+          <div class="st-num" style="color:#1ABC9C">Est. 2</div>
+          <div class="st-name">CMJ</div>
+          <div class="st-sub">Contramovimiento · 3 intentos</div>
+        </div>
+        <div class="st-card" style="border-color:#F39C12" onclick="selectSt('F3')">
+          <div class="st-ico">🦵</div>
+          <div class="st-num" style="color:#F39C12">Est. 3</div>
+          <div class="st-name">ABK</div>
+          <div class="st-sub">Con brazos · 3 intentos</div>
+        </div>
+        <div class="st-card" style="border-color:#8E44AD" onclick="selectSt('F4')">
+          <div class="st-ico">🤸</div>
+          <div class="st-num" style="color:#8E44AD">Est. 4</div>
+          <div class="st-name">Sit & Reach</div>
+          <div class="st-sub">3 intentos → mejor</div>
+        </div>
+        <div class="st-card" style="border-color:#1A5276" onclick="selectSt('F5')">
+          <div class="st-ico">📐</div>
+          <div class="st-num" style="color:#1A5276">Est. 5</div>
+          <div class="st-name">PHV</div>
+          <div class="st-sub">Peso · Talla · T.Sentado (cajón −40cm)</div>
+        </div>
+        <div class="st-card" style="border-color:#C0392B" onclick="selectSt('F6')">
+          <div class="st-ico">🏋️</div>
+          <div class="st-num" style="color:#C0392B">Est. 6</div>
+          <div class="st-name">FMS Sentadilla</div>
+          <div class="st-sub">Puntuación 0 · 1 · 2 · 3</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     S4 FORMULARIO
+══════════════════════════════════════ -->
+<div class="screen" id="s-form">
+  <div class="wrap"><br>
+    <div class="stn-hdr" id="stnHdr">
+      <div class="stn-ico" id="stnIco">📋</div>
+      <div class="stn-info">
+        <div class="stn-title" id="stnTitle">—</div>
+        <div class="stn-sub" id="stnSub">—</div>
+      </div>
+      <div class="stn-cnt">
+        <div class="stn-n" id="stnN">0</div>
+        <div class="stn-nl">guardados</div>
+      </div>
+    </div>
+
+    <!-- BUSCADOR -->
+    <div class="card">
+      <div class="ct"><span class="ct-bar" style="background:var(--teal)"></span>Postulante</div>
+      <div class="sel-ath" id="selAth">
+        <div class="sa-av" id="selAv">?</div>
+        <div><div class="sa-name" id="selNm">—</div><div class="sa-meta" id="selMt">—</div></div>
+        <button class="sa-clear" onclick="clearAth()">✕ Cambiar</button>
+      </div>
+      <div id="searchArea">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="srchInput" placeholder="Escribe nombre o apellido..." autocomplete="off" autocorrect="off" oninput="doSearch()" onfocus="doSearch()"/>
+        </div>
+        <div class="sr-box" id="srBox"></div>
+        <div class="info-box" style="margin-top:8px">Escribe 2+ letras para buscar.</div>
+      </div>
+    </div>
+
+    <!-- FORMULARIO DINÁMICO -->
+    <div id="dynForm"></div>
+
+    <button class="btn btn-teal" id="btnGuardar" onclick="guardar()" style="display:none">
+      <span class="spinner" id="spin"></span>
+      <span id="btnTxt">💾 &nbsp;Guardar resultado</span>
+    </button>
+    <button class="btn btn-ghost" style="margin-top:8px" onclick="goEval()">← Cambiar estación</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     S5 ÉXITO
+══════════════════════════════════════ -->
+<div class="screen" id="s-ok">
+  <div class="wrap">
+    <div class="suc-wrap">
+      <div class="suc-ico ok">✓</div>
+      <h2>¡Guardado!</h2>
+      <p>Resultado registrado correctamente</p>
+      <div class="suc-name" id="okName">—</div>
+      <div class="cnt-bar">
+        <div class="cl">Registros en esta estación</div>
+        <div class="cv" id="okCnt">0</div>
+      </div>
+      <button class="btn btn-teal" onclick="siguiente()">+ &nbsp;Siguiente postulante</button>
+      <button class="btn btn-ghost" onclick="goEval()">Cambiar estación</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+const S = {
+  url:'', jornada:null, nomina:[], station:null,
+  athlete:null, stCount:0, fmsVal:null,
+};
+
+/* ══════════════════════════════════════
+   INIT
+══════════════════════════════════════ */
+window.onload = () => {
+  S.url     = localStorage.getItem('etm_url') || '';
+  S.nomina  = JSON.parse(localStorage.getItem('etm_nomina') || '[]');
+  S.jornada = JSON.parse(localStorage.getItem('etm_jornada') || 'null');
+  document.getElementById('jorFecha').value = new Date().toISOString().split('T')[0];
+  updConn();
+  if (S.url) { showS('s-role'); updRoleInfo(); }
+};
+
+function updConn() {
+  const d=document.getElementById('connDot'), l=document.getElementById('connLbl');
+  if(S.url){d.classList.remove('off');l.textContent='Online';}
+  else{d.classList.add('off');l.textContent='Local';}
+}
+function updRoleInfo() {
+  document.getElementById('jorLabel').textContent = S.jornada
+    ? `${S.jornada.tipo} · ${S.jornada.recinto} · ${S.jornada.fecha}` : 'Sin jornada configurada';
+  document.getElementById('nomLabel').textContent = `Nómina: ${S.nomina.length} postulantes`;
+}
+
+/* ══════════════════════════════════════
+   NAV
+══════════════════════════════════════ */
+function showS(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goConfig()  { showS('s-config'); }
+function goRole()    { showS('s-role'); updRoleInfo(); }
+function goPwd()     {
+  // Reset password screen state
+  document.getElementById('pwdInput').value='';
+  document.getElementById('pwdError').textContent='';
+  document.getElementById('pwdAttempts').textContent='';
+  document.getElementById('pwdInput').type='password';
+  document.getElementById('pwdEye').textContent='👁️';
+  S._pwdFails = S._pwdFails || 0;
+  showS('s-pwd');
+  setTimeout(()=>document.getElementById('pwdInput').focus(), 300);
+}
+function goAdmin()   { updAdminLabel(); showS('s-admin'); }
+
+function updAdminLabel(){
+  document.getElementById('adminJornadaLabel').textContent = S.jornada
+    ? `${S.jornada.tipo} · ${S.jornada.recinto} · ${S.jornada.fecha}`
+    : 'Sin configurar';
+  document.getElementById('adminNominaLabel').textContent =
+    `Nómina: ${S.nomina.length} postulantes`;
+}
+
+function nuevaJornada(){
+  if(!confirm('🔄 ¿Iniciar una nueva jornada?\n\nEsto borrará la nómina actual y la configuración de jornada del dispositivo.\n\nLos datos ya enviados al Sheet quedan guardados.')){return;}
+  // Limpiar nómina
+  S.nomina=[];
+  localStorage.setItem('etm_nomina','[]');
+  // Limpiar jornada
+  S.jornada=null;
+  localStorage.removeItem('etm_jornada');
+  // Limpiar campos del formulario de jornada
+  ['jorTipo','jorDeporte','jorFecha','jorRecinto','jorComuna','jorMet'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.value='';
+  });
+  document.getElementById('jorFecha').value=new Date().toISOString().split('T')[0];
+  document.getElementById('deporteRow').style.display='none';
+  renderNomina();
+  updAdminLabel();
+  updRoleInfo();
+  toast('Nueva jornada iniciada ✓','ok');
+  // Ir a tab Jornada para que configure de inmediato
+  adminTab('jornada', document.querySelectorAll('.mtab')[1]);
+}
+function goEval()    {
+  // Alerta si hay postulante seleccionado con datos sin guardar
+  if(S.athlete){
+    const hasData = document.querySelectorAll('#dynForm input').length > 0 &&
+      Array.from(document.querySelectorAll('#dynForm input[type=number]')).some(i=>i.value!=='');
+    if(hasData && !confirm('⚠️ Tienes datos sin guardar para ' + S.athlete.nombre + '.\n¿Salir sin guardar?')){
+      return;
+    }
+  }
+  clearAth();
+  showS('s-estacion');
+  setupEst();
+}
+
+/* ══════════════════════════════════════
+   PASSWORD
+══════════════════════════════════════ */
+const ADMIN_PWD = 'joaquin1220';
+
+function checkPwd() {
+  const val = document.getElementById('pwdInput').value;
+  const errEl = document.getElementById('pwdError');
+  const attEl = document.getElementById('pwdAttempts');
+
+  if (val === ADMIN_PWD) {
+    errEl.textContent = '';
+    attEl.textContent = '';
+    S._pwdFails = 0;
+    toast('Acceso concedido ✓', 'ok');
+    setTimeout(() => showS('s-admin'), 400);
+  } else {
+    S._pwdFails = (S._pwdFails || 0) + 1;
+    errEl.textContent = 'Clave incorrecta. Intenta nuevamente.';
+    document.getElementById('pwdInput').value = '';
+    document.getElementById('pwdInput').focus();
+    if (S._pwdFails >= 3) {
+      attEl.textContent = `${S._pwdFails} intentos fallidos. Consulta al metodólogo.`;
+    }
+    // Shake animation
+    const inp = document.getElementById('pwdInput');
+    inp.style.animation = 'shake .35s ease';
+    setTimeout(() => inp.style.animation = '', 400);
+  }
+}
+
+function togglePwd() {
+  const inp = document.getElementById('pwdInput');
+  const eye = document.getElementById('pwdEye');
+  if (inp.type === 'password') { inp.type = 'text';     eye.textContent = '🙈'; }
+  else                          { inp.type = 'password'; eye.textContent = '👁️'; }
+}
+
+/* ══════════════════════════════════════
+   CONFIG
+══════════════════════════════════════ */
+function saveConfig() {
+  const url = document.getElementById('cfgUrl').value.trim();
+  if(!url){toast('Ingresa la URL','err');return;}
+  S.url=url; localStorage.setItem('etm_url',url);
+  updConn(); toast('Guardado ✓','ok');
+  setTimeout(()=>{showS('s-role');updRoleInfo();},700);
+}
+function skipConfig(){updConn();showS('s-role');updRoleInfo();}
+
+/* ══════════════════════════════════════
+   ADMIN TABS
+══════════════════════════════════════ */
+function adminTab(tab,el){
+  ['nomina','jornada','progreso'].forEach(t=>document.getElementById('tab-'+t).style.display=t===tab?'block':'none');
+  document.querySelectorAll('.mtab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  if(tab==='progreso') cargarProgreso();
+}
+
+/* ══════════════════════════════════════
+   NÓMINA
+══════════════════════════════════════ */
+function cargarNomina(){
+  const raw=document.getElementById('nominaPaste').value;
+  const lines=raw.split('\n').map(l=>l.trim()).filter(l=>l.length>1);
+  if(!lines.length){toast('Escribe al menos un nombre','err');return;}
+  const ex=new Set(S.nomina.map(n=>n.nombre.toLowerCase()));
+  let added=0;
+  lines.forEach(nombre=>{
+    if(!ex.has(nombre.toLowerCase())){S.nomina.push({nombre});ex.add(nombre.toLowerCase());added++;}
+  });
+  localStorage.setItem('etm_nomina',JSON.stringify(S.nomina));
+  renderNomina();
+  document.getElementById('nominaPaste').value='';
+  toast(`${added} postulantes cargados ✓`,'ok');
+  updRoleInfo();
+}
+function renderNomina(){
+  const c=document.getElementById('nominaCard'), l=document.getElementById('nominaList');
+  document.getElementById('nominaBadge').textContent=S.nomina.length;
+  if(!S.nomina.length){c.style.display='none';return;}
+  c.style.display='block';
+  l.innerHTML=S.nomina.map((a,i)=>`
+    <div class="nomina-item">
+      <div class="ni-n">${i+1}. ${a.nombre}</div>
+      <button class="ni-del" onclick="delPost(${i})">✕</button>
+    </div>`).join('');
+}
+function delPost(i){S.nomina.splice(i,1);localStorage.setItem('etm_nomina',JSON.stringify(S.nomina));renderNomina();updRoleInfo();}
+function limpiarNomina(){if(!confirm('¿Borrar toda la nómina?'))return;S.nomina=[];localStorage.setItem('etm_nomina','[]');renderNomina();updRoleInfo();}
+
+/* ══════════════════════════════════════
+   JORNADA
+══════════════════════════════════════ */
+function onTipoChange(){
+  document.getElementById('deporteRow').style.display=
+    document.getElementById('jorTipo').value==='FOCALIZADA'?'block':'none';
+}
+function guardarJornada(){
+  const tipo=document.getElementById('jorTipo').value;
+  const fecha=document.getElementById('jorFecha').value;
+  const recinto=document.getElementById('jorRecinto').value.trim();
+  if(!tipo||!fecha||!recinto){toast('Completa tipo, fecha y recinto','err');return;}
+  S.jornada={tipo,deporte:document.getElementById('jorDeporte').value.trim(),
+    fecha,recinto,comuna:document.getElementById('jorComuna').value.trim(),
+    metodologo:document.getElementById('jorMet').value.trim()};
+  localStorage.setItem('etm_jornada',JSON.stringify(S.jornada));
+  updRoleInfo(); toast('Jornada guardada ✓','ok');
+}
+
+/* ══════════════════════════════════════
+   PROGRESO
+══════════════════════════════════════ */
+async function cargarProgreso(){
+  const el=document.getElementById('progresoEl');
+  if(!S.url){el.innerHTML='<p style="color:var(--muted);font-size:13px;text-align:center;padding:16px">Sin conexión</p>';return;}
+  el.innerHTML='<p style="color:var(--muted);font-size:13px;text-align:center;padding:16px">Cargando...</p>';
+  try{
+    const r=await fetch(S.url+'?action=progreso');
+    const d=await r.json();
+    renderProgreso(d,el);
+  }catch(e){el.innerHTML='<p style="color:var(--red);font-size:13px;text-align:center;padding:16px">Error al cargar</p>';}
+}
+function renderProgreso(data,el){
+  if(!data||!data.rows||!data.rows.length){el.innerHTML='<p style="color:var(--muted);font-size:13px;text-align:center;padding:16px">Sin registros aún</p>';return;}
+  const heads=data.heads||[];
+  let h='<div class="prog-wrap"><table class="prog"><tr><th>Postulante</th>';
+  heads.forEach(c=>h+=`<th>${c}</th>`);
+  h+='</tr>';
+  data.rows.forEach(row=>{
+    h+=`<tr><td>${row[0]||'—'}</td>`;
+    for(let i=1;i<row.length;i++){
+      const v=row[i]!==undefined&&row[i]!=='';
+      h+=`<td><span class="pc ${v?'done':'pend'}">${v?'✓':'·'}</span></td>`;
+    }
+    h+='</tr>';
+  });
+  h+='</table></div>';
+  el.innerHTML=h;
+}
+
+/* ══════════════════════════════════════
+   ESTACIONES
+══════════════════════════════════════ */
+function setupEst(){
+  const tipo=S.jornada?.tipo;
+  document.getElementById('estJornadaLabel').textContent=S.jornada
+    ?`${S.jornada.recinto} · ${S.jornada.fecha}`:'Sin jornada configurada';
+
+  const tabM=document.getElementById('tabMasiva');
+  const tabF=document.getElementById('tabFoc');
+
+  if(tipo==='MASIVA'){
+    // Bloquear tab focalizada — no permite cambiar
+    showTipo('masiva',tabM);
+    tabF.style.opacity='0.35';
+    tabF.style.pointerEvents='none';
+    tabF.title='Esta jornada es MASIVA';
+    tabM.style.opacity='1';
+    tabM.style.pointerEvents='auto';
+  } else if(tipo==='FOCALIZADA'){
+    // Bloquear tab masiva
+    showTipo('focalizada',tabF);
+    tabM.style.opacity='0.35';
+    tabM.style.pointerEvents='none';
+    tabM.title='Esta jornada es FOCALIZADA';
+    tabF.style.opacity='1';
+    tabF.style.pointerEvents='auto';
+  } else {
+    // Sin jornada: ambas disponibles
+    tabM.style.opacity='1'; tabM.style.pointerEvents='auto';
+    tabF.style.opacity='1'; tabF.style.pointerEvents='auto';
+    showTipo('masiva',tabM);
+  }
+}
+function showTipo(tipo,el){
+  document.getElementById('estMasiva').style.display=tipo==='masiva'?'block':'none';
+  document.getElementById('estFocalizada').style.display=tipo==='focalizada'?'block':'none';
+  document.querySelectorAll('.tipo-tab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ── Station metadata ── */
+const SM = {
+  M1:{color:'#1A5276',ico:'📐',title:'Est. 1 · PHV · Recepción',sub:'Fecha nac · Sexo · Peso · Talla · T.Sentado (cajón −40cm) · Mirwald 2002'},
+  M2:{color:'#1ABC9C',ico:'🤸',title:'Est. 2 · Seat & Reach',sub:'3 intentos → mejor automático (cm)'},
+  M3:{color:'#F39C12',ico:'🦘',title:'Est. 3 · Salto Largo',sub:'3 intentos → mejor automático (cm)'},
+  M4:{color:'#8E44AD',ico:'⚡',title:'Est. 4 · Agilidad T',sub:'2 intentos → menor tiempo (seg) · Múltiples evaluadores permitidos'},
+  M5:{color:'#E74C3C',ico:'🏐',title:'Est. 5 · Balón Medicinal',sub:'3 intentos → mejor automático (cm)'},
+  M6:{color:'#2980B9',ico:'💨',title:'Est. 6 · Velocidad 30m',sub:'2 intentos → menor tiempo (seg) · Múltiples evaluadores permitidos'},
+  M7:{color:'#C0392B',ico:'🏃',title:'Est. 7 · Course Navette',sub:'Etapa + Palier → VO₂máx calculado · Múltiples evaluadores permitidos'},
+  F1:{color:'#27AE60',ico:'🦵',title:'Est. 1 · SJ (Squat Jump)',sub:'3 intentos → mejor automático (cm)'},
+  F2:{color:'#1ABC9C',ico:'🦵',title:'Est. 2 · CMJ (Contramovimiento)',sub:'3 intentos → mejor automático (cm)'},
+  F3:{color:'#F39C12',ico:'🦵',title:'Est. 3 · ABK (Con brazos)',sub:'3 intentos → mejor automático (cm)'},
+  F4:{color:'#8E44AD',ico:'🤸',title:'Est. 4 · Sit & Reach',sub:'3 intentos → mejor automático (cm)'},
+  F5:{color:'#1A5276',ico:'📐',title:'Est. 5 · PHV (Mirwald 2002)',sub:'Talla sentada con cajón: ingresa valor leído, resta −40cm automática'},
+  F6:{color:'#C0392B',ico:'🏋️',title:'Est. 6 · FMS Sentadilla',sub:'Puntuación 0 · 1 · 2 · 3'},
+};
+
+function selectSt(st){
+  S.station=st; S.stCount=0; S.fmsVal=null;
+  const m=SM[st];
+  const hdr=document.getElementById('stnHdr');
+  hdr.style.background=`linear-gradient(135deg,${m.color},${m.color}bb)`;
+  document.getElementById('stnIco').textContent=m.ico;
+  document.getElementById('stnTitle').textContent=m.title;
+  document.getElementById('stnSub').textContent=m.sub;
+  document.getElementById('stnN').textContent='0';
+  buildForm(st);
+  clearAth();
+  showS('s-form');
+}
+
+/* ══════════════════════════════════════
+   BÚSQUEDA
+══════════════════════════════════════ */
+function doSearch(){
+  const q=document.getElementById('srchInput').value.trim().toLowerCase();
+  const box=document.getElementById('srBox');
+  if(q.length<2){box.classList.remove('open');box.innerHTML='';return;}
+  const hits=S.nomina.filter(a=>a.nombre.toLowerCase().includes(q)).slice(0,8);
+  if(!hits.length){
+    box.innerHTML='<div class="sr-item" style="color:var(--muted)">Sin coincidencias</div>';
+    box.classList.add('open');return;
+  }
+  const regKey=`reg_${S.station}_${S.jornada?.fecha||'hoy'}`;
+  const regs=new Set(JSON.parse(localStorage.getItem(regKey)||'[]'));
+  box.innerHTML=hits.map(a=>`
+    <div class="sr-item" onclick="selAth('${esc(a.nombre)}',${regs.has(a.nombre)})">
+      <span class="sr-name">${a.nombre}</span>
+      ${regs.has(a.nombre)?'<span class="sr-tag" style="background:rgba(231,76,60,.15);color:#C0392B">⚠ ya registrado</span>':''}
+    </div>`).join('');
+  box.classList.add('open');
+}
+function selAth(nombre, yaRegistrado=false){
+  if(yaRegistrado){
+    if(!confirm(`⚠️ "${nombre}" ya fue registrado en esta estación hoy.\n\n¿Registrar de nuevo de todas formas?\n(Solo si hubo un error en el registro anterior)`)){
+      return;
+    }
+  }
+  S.athlete={nombre};
+  document.getElementById('selAv').textContent=nombre.charAt(0).toUpperCase();
+  document.getElementById('selNm').textContent=nombre;
+  document.getElementById('selMt').textContent=S.jornada?.deporte||S.jornada?.tipo||'';
+  document.getElementById('selAth').classList.add('show');
+  document.getElementById('searchArea').style.display='none';
+  document.getElementById('btnGuardar').style.display='flex';
+  document.getElementById('srBox').classList.remove('open');
+  document.getElementById('srchInput').value='';
+}
+function clearAth(){
+  S.athlete=null; S.fmsVal=null;
+  document.getElementById('selAth').classList.remove('show');
+  document.getElementById('searchArea').style.display='block';
+  document.getElementById('btnGuardar').style.display='none';
+  document.getElementById('srchInput').value='';
+  document.getElementById('srBox').classList.remove('open');
+  resetForm();
+}
+function esc(s){return s.replace(/'/g,"\\'");}
+
+/* ══════════════════════════════════════
+   FORM BUILDER — cada estación tiene su propio formulario mínimo
+══════════════════════════════════════ */
+const FORMS = {
+
+M1:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#1A5276"></span>PHV · Mirwald 2002</div>
+  <div class="r2">
+    <div class="field"><label>Fecha de nacimiento <span class="req">*</span></label><input type="date" id="f_fnac" oninput="calcPHV()"/></div>
+    <div class="field"><label>Sexo <span class="req">*</span></label>
+      <select id="f_sexo" onchange="calcPHV()">
+        <option value="">Seleccionar...</option>
+        <option>Femenino</option><option>Masculino</option>
+      </select>
+    </div>
+  </div>
+  <div class="r3">
+    <div class="field"><label>Peso <span class="hint">kg</span></label><input type="number" id="f1" step="0.1" placeholder="0.0" oninput="calcPHV()"/></div>
+    <div class="field"><label>Talla <span class="hint">cm</span></label><input type="number" id="f2" step="0.1" placeholder="0.0" oninput="calcPHV()"/></div>
+    <div class="field"><label>T.Sentado <span class="hint">cm leído</span></label><input type="number" id="f3" step="0.1" placeholder="0.0" oninput="calcPHV()"/></div>
+  </div>
+  <div class="cajon-tag">📦 Ingresa el valor que marca la cinta. El sistema resta −40 cm del cajón automáticamente.</div>
+  <div class="phv-box" id="phvBox">
+    <div class="phv-row">
+      <div><div class="phv-v" id="phvLP">—</div><div class="phv-l">Long. Pierna (cm)</div></div>
+      <div><div class="phv-v" id="phvOff">—</div><div class="phv-l">Offset Madurez</div></div>
+      <div><div class="phv-v" id="phvEM">—</div><div class="phv-l">Edad Madurez</div></div>
+    </div>
+    <div class="phv-note">T.Sentada corregida (−40 cm) · Mirwald et al. 2002</div>
+  </div>
+</div>`,
+
+M2:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#1ABC9C"></span>Seat & Reach — mejor de 3 intentos</div>
+  <div class="attempts att3">
+    <div class="att-box"><label>Intento 1</label><input type="number" id="f1" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 2</label><input type="number" id="f2" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 3</label><input type="number" id="f3" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+  </div>
+  <div class="best-bar" id="fBest"><span class="bb-lbl">✓ Mejor intento</span><span><span class="bb-val" id="fBestV">—</span><span class="bb-unit">cm</span></span></div>
+</div>`,
+
+M3:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#F39C12"></span>Salto largo sin impulso — mejor de 3 intentos</div>
+  <div class="attempts att3">
+    <div class="att-box"><label>Intento 1</label><input type="number" id="f1" step="1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 2</label><input type="number" id="f2" step="1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 3</label><input type="number" id="f3" step="1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+  </div>
+  <div class="best-bar" id="fBest"><span class="bb-lbl">✓ Mejor intento</span><span><span class="bb-val" id="fBestV">—</span><span class="bb-unit">cm</span></span></div>
+</div>`,
+
+M4:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#8E44AD"></span>Test de Agilidad T — menor de 2 intentos · <span style="color:var(--teal);font-weight:700">Múltiples evaluadores permitidos</span></div>
+  <div class="attempts att2">
+    <div class="att-box"><label>Intento 1 (seg)</label><input type="number" id="f1" step="0.01" placeholder="—" oninput="cb('f',2,'min','seg')"/></div>
+    <div class="att-box"><label>Intento 2 (seg)</label><input type="number" id="f2" step="0.01" placeholder="—" oninput="cb('f',2,'min','seg')"/></div>
+  </div>
+  <div class="best-bar" id="fBest"><span class="bb-lbl">✓ Mejor tiempo</span><span><span class="bb-val" id="fBestV">—</span><span class="bb-unit">seg</span></span></div>
+</div>`,
+
+M5:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#E74C3C"></span>Lanzamiento balón medicinal — mejor de 3 intentos</div>
+  <div class="attempts att3">
+    <div class="att-box"><label>Intento 1 (cm)</label><input type="number" id="f1" step="1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 2 (cm)</label><input type="number" id="f2" step="1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 3 (cm)</label><input type="number" id="f3" step="1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+  </div>
+  <div class="best-bar" id="fBest"><span class="bb-lbl">✓ Mejor lanzamiento</span><span><span class="bb-val" id="fBestV">—</span><span class="bb-unit">cm</span></span></div>
+</div>`,
+
+M6:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#2980B9"></span>Velocidad 30 metros — menor de 2 intentos · <span style="color:var(--teal);font-weight:700">Múltiples evaluadores permitidos</span></div>
+  <div class="attempts att2">
+    <div class="att-box"><label>Intento 1 (seg)</label><input type="number" id="f1" step="0.01" placeholder="—" oninput="cb('f',2,'min','seg')"/></div>
+    <div class="att-box"><label>Intento 2 (seg)</label><input type="number" id="f2" step="0.01" placeholder="—" oninput="cb('f',2,'min','seg')"/></div>
+  </div>
+  <div class="best-bar" id="fBest"><span class="bb-lbl">✓ Mejor tiempo</span><span><span class="bb-val" id="fBestV">—</span><span class="bb-unit">seg</span></span></div>
+</div>`,
+
+M7:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#C0392B"></span>Course Navette</div>
+  <div class="r2">
+    <div class="field"><label>Etapa alcanzada <span class="req">*</span></label><input type="number" id="f1" placeholder="Ej: 7" min="1" max="21" oninput="calcNav()"/></div>
+    <div class="field"><label>Palier</label><input type="number" id="f2" placeholder="Ej: 5" min="1" max="9" oninput="calcNav()"/></div>
+  </div>
+  <div class="nav-res" id="navRes">
+    <div><div class="nav-v" id="navVO2">—</div><div class="nav-l">VO₂máx (ml/kg/min)</div></div>
+    <div><div class="nav-v" id="navVel">—</div><div class="nav-l">Velocidad (km/h)</div></div>
+  </div>
+</div>`,
+
+F1:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#27AE60"></span>SJ — Squat Jump · mejor de 3 intentos</div>
+  <div class="attempts att3">
+    <div class="att-box"><label>Intento 1 (cm)</label><input type="number" id="f1" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 2 (cm)</label><input type="number" id="f2" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 3 (cm)</label><input type="number" id="f3" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+  </div>
+  <div class="best-bar" id="fBest"><span class="bb-lbl">✓ Mejor SJ</span><span><span class="bb-val" id="fBestV">—</span><span class="bb-unit">cm</span></span></div>
+</div>`,
+
+F2:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#1ABC9C"></span>CMJ — Contramovimiento · mejor de 3 intentos</div>
+  <div class="attempts att3">
+    <div class="att-box"><label>Intento 1 (cm)</label><input type="number" id="f1" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 2 (cm)</label><input type="number" id="f2" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 3 (cm)</label><input type="number" id="f3" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+  </div>
+  <div class="best-bar" id="fBest"><span class="bb-lbl">✓ Mejor CMJ</span><span><span class="bb-val" id="fBestV">—</span><span class="bb-unit">cm</span></span></div>
+</div>`,
+
+F3:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#F39C12"></span>ABK — Con brazos · mejor de 3 intentos</div>
+  <div class="attempts att3">
+    <div class="att-box"><label>Intento 1 (cm)</label><input type="number" id="f1" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 2 (cm)</label><input type="number" id="f2" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 3 (cm)</label><input type="number" id="f3" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+  </div>
+  <div class="best-bar" id="fBest"><span class="bb-lbl">✓ Mejor ABK</span><span><span class="bb-val" id="fBestV">—</span><span class="bb-unit">cm</span></span></div>
+</div>`,
+
+F4:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#8E44AD"></span>Sit & Reach — mejor de 3 intentos</div>
+  <div class="attempts att3">
+    <div class="att-box"><label>Intento 1 (cm)</label><input type="number" id="f1" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 2 (cm)</label><input type="number" id="f2" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+    <div class="att-box"><label>Intento 3 (cm)</label><input type="number" id="f3" step="0.1" placeholder="—" oninput="cb('f',3,'max','cm')"/></div>
+  </div>
+  <div class="best-bar" id="fBest"><span class="bb-lbl">✓ Mejor intento</span><span><span class="bb-val" id="fBestV">—</span><span class="bb-unit">cm</span></span></div>
+</div>`,
+
+F5:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#1A5276"></span>PHV — Mirwald 2002</div>
+  <div class="r2">
+    <div class="field"><label>Fecha de nacimiento <span class="req">*</span></label><input type="date" id="f_fnac" oninput="calcPHV()"/></div>
+    <div class="field"><label>Sexo <span class="req">*</span></label>
+      <select id="f_sexo" onchange="calcPHV()">
+        <option value="">Seleccionar...</option>
+        <option>Femenino</option><option>Masculino</option>
+      </select>
+    </div>
+  </div>
+  <div class="r3">
+    <div class="field"><label>Peso<span class="hint">kg</span></label><input type="number" id="f1" step="0.1" placeholder="0.0" oninput="calcPHV()"/></div>
+    <div class="field"><label>Talla<span class="hint">cm</span></label><input type="number" id="f2" step="0.1" placeholder="0.0" oninput="calcPHV()"/></div>
+    <div class="field"><label>T.Sentado<span class="hint">cm leído</span></label><input type="number" id="f3" step="0.1" placeholder="0.0" oninput="calcPHV()"/></div>
+  </div>
+  <div class="cajon-tag">📦 Ingresa el valor que marca la cinta. El sistema resta −40 cm del cajón automáticamente.</div>
+  <div class="phv-box" id="phvBox">
+    <div class="phv-row">
+      <div><div class="phv-v" id="phvLP">—</div><div class="phv-l">Long. Pierna (cm)</div></div>
+      <div><div class="phv-v" id="phvOff">—</div><div class="phv-l">Offset Madurez</div></div>
+      <div><div class="phv-v" id="phvEM">—</div><div class="phv-l">Edad Madurez</div></div>
+    </div>
+    <div class="phv-note">T.Sentado corregida (−40 cm) · Mirwald et al. 2002</div>
+  </div>
+</div>`,
+
+F6:`<div class="card">
+  <div class="ct"><span class="ct-bar" style="background:#C0392B"></span>FMS — Sentadilla Profunda</div>
+  <div class="fms-row">
+    <div class="fms-btn" data-v="0" onclick="selFMS(this)"><div class="fms-n">0</div><div class="fms-l">Dolor</div></div>
+    <div class="fms-btn" data-v="1" onclick="selFMS(this)"><div class="fms-n">1</div><div class="fms-l">Deficiente</div></div>
+    <div class="fms-btn" data-v="2" onclick="selFMS(this)"><div class="fms-n">2</div><div class="fms-l">Dificultad</div></div>
+    <div class="fms-btn" data-v="3" onclick="selFMS(this)"><div class="fms-n">3</div><div class="fms-l">Correcto</div></div>
+  </div>
+</div>`,
+};
+
+function buildForm(st){document.getElementById('dynForm').innerHTML=FORMS[st]||'';}
+function resetForm(){
+  const el=document.getElementById('dynForm');
+  el.querySelectorAll('input').forEach(i=>i.value='');
+  el.querySelectorAll('select').forEach(s=>s.value='');
+  el.querySelectorAll('.best-bar').forEach(b=>b.classList.remove('show'));
+  el.querySelectorAll('.nav-res').forEach(b=>b.classList.remove('show'));
+  el.querySelectorAll('.phv-box').forEach(b=>b.classList.remove('show'));
+  el.querySelectorAll('input').forEach(i=>i.classList.remove('best'));
+  el.querySelectorAll('.fms-btn').forEach(b=>b.className='fms-btn');
+  S.fmsVal=null;
+}
+
+/* ══════════════════════════════════════
+   CÁLCULOS
+══════════════════════════════════════ */
+// Best-of genérico. prefix='f', n=intentos, mode='max'|'min', unit
+function cb(prefix,n,mode,unit){
+  const ids=Array.from({length:n},(_,i)=>prefix+(i+1));
+  const pairs=ids.map(id=>{
+    const el=document.getElementById(id);
+    const v=el&&el.value!==''?parseFloat(el.value):NaN;
+    return{id,v};
+  }).filter(p=>!isNaN(p.v));
+
+  ids.forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('best');});
+  const bar=document.getElementById(prefix+'Best');
+  const valEl=document.getElementById(prefix+'BestV');
+  if(!pairs.length){if(bar)bar.classList.remove('show');return;}
+
+  const best=mode==='max'
+    ?pairs.reduce((a,b)=>a.v>=b.v?a:b)
+    :pairs.reduce((a,b)=>a.v<=b.v?a:b);
+
+  const el=document.getElementById(best.id);
+  if(el) el.classList.add('best');
+  if(bar) bar.classList.add('show');
+  if(valEl) valEl.textContent=unit==='seg'?best.v.toFixed(2):best.v.toFixed(1);
+}
+
+function getBest(n,mode){
+  const vals=Array.from({length:n},(_,i)=>{
+    const el=document.getElementById('f'+(i+1));
+    return el&&el.value!==''?parseFloat(el.value):NaN;
+  }).filter(v=>!isNaN(v));
+  if(!vals.length) return '';
+  return mode==='max'
+    ?vals.reduce((a,b)=>a>=b?a:b)
+    :vals.reduce((a,b)=>a<=b?a:b);
+}
+
+function gv(id){const el=document.getElementById(id);return el?el.value.trim():'';}
+
+function calcNav(){
+  const e=parseInt(gv('f1'))||0,p=parseInt(gv('f2'))||0;
+  if(!e){document.getElementById('navRes').classList.remove('show');return;}
+  const vel=8+(e-1)*0.5;
+  const vo2=Math.max(31.025+3.238*vel-3.248*(e+p*0.1),20);
+  document.getElementById('navVO2').textContent=vo2.toFixed(1);
+  document.getElementById('navVel').textContent=vel.toFixed(1);
+  document.getElementById('navRes').classList.add('show');
+}
+
+function calcPHV(){
+  const peso=parseFloat(gv('f1'))||0,talla=parseFloat(gv('f2'))||0;
+  const tsRaw=parseFloat(gv('f3'))||0,ts=tsRaw>0?tsRaw-40:0;
+  const sexo=gv('f_sexo'),fnac=gv('f_fnac');
+  if(!peso||!talla||!tsRaw||!sexo||!fnac){document.getElementById('phvBox').classList.remove('show');return;}
+  const lp=talla-ts;
+  const edad=(new Date()-new Date(fnac))/(365.25*24*3600*1000);
+  let off;
+  if(sexo==='Masculino'){
+    off=-9.236+0.0002708*(lp*ts)-0.001663*(edad*lp)+0.007216*(edad*ts)+0.02292*(peso/talla*100);
+  }else{
+    off=-9.376+0.0001882*(lp*ts)+0.0022*(edad*lp)+0.005841*(edad*ts)-0.002658*(edad*peso)+0.07693*(peso/talla*100);
+  }
+  document.getElementById('phvLP').textContent=lp.toFixed(1);
+  document.getElementById('phvOff').textContent=off.toFixed(2);
+  document.getElementById('phvEM').textContent=(edad+off).toFixed(1)+' años';
+  document.getElementById('phvBox').classList.add('show');
+}
+
+function selFMS(btn){
+  document.querySelectorAll('.fms-btn').forEach(b=>b.className='fms-btn');
+  const v=btn.dataset.v; btn.classList.add('s'+v); S.fmsVal=parseInt(v);
+}
+
+/* ══════════════════════════════════════
+   GUARDAR
+══════════════════════════════════════ */
+async function guardar(){
+  if(!S.athlete){toast('Selecciona un postulante','err');return;}
+  const st=S.station;
+
+  // Validaciones mínimas por estación
+  if(st==='M1'&&(!gv('f_fnac')||!gv('f_sexo'))){toast('Ingresa fecha de nacimiento y sexo','err');return;}
+  if(st==='F5'&&(!gv('f_fnac')||!gv('f_sexo'))){toast('Ingresa fecha de nac. y sexo','err');return;}
+  if(st==='F6'&&S.fmsVal===null){toast('Selecciona una puntuación FMS','err');return;}
+  if(st==='M7'&&!gv('f1')){toast('Ingresa la etapa alcanzada','err');return;}
+
+  const btn=document.getElementById('btnGuardar');
+  btn.disabled=true;
+  document.getElementById('spin').style.display='inline-block';
+  document.getElementById('btnTxt').textContent='Guardando...';
+
+  const row=buildRow();
+  let ok=true;
+  if(S.url) ok=await send(row);
+  else saveLocal(row);
+
+  btn.disabled=false;
+  document.getElementById('spin').style.display='none';
+  document.getElementById('btnTxt').textContent='💾 \u00a0Guardar resultado';
+
+  if(ok){
+    markReg(S.athlete.nombre);
+    S.stCount++;
+    document.getElementById('stnN').textContent=S.stCount;
+    document.getElementById('okName').textContent=S.athlete.nombre;
+    document.getElementById('okCnt').textContent=S.stCount;
+    S.athlete=null; // limpiar para que no dispare alerta de "sin guardar"
+    S.fmsVal=null;
+    showS('s-ok');
+  }
+}
+
+function buildRow(){
+  const j=S.jornada||{}, st=S.station;
+  const base={
+    timestamp:new Date().toLocaleString('es-CL'),
+    tipo:j.tipo||'', deporte:j.deporte||'',
+    fecha_jornada:j.fecha||'', recinto:j.recinto||'',
+    comuna:j.comuna||'', metodologo:j.metodologo||'',
+    estacion:st, nombre:S.athlete.nombre,
+  };
+
+  if(st==='M1'){
+    const tsRaw=parseFloat(gv('f3'))||0;
+    Object.assign(base,{
+      fecha_nac:gv('f_fnac'), sexo:gv('f_sexo'),
+      peso:gv('f1'), talla:gv('f2'),
+      talla_sent_leida:tsRaw,
+      talla_sent_corregida:tsRaw>0?(tsRaw-40).toFixed(1):'',
+      phv_lp:document.getElementById('phvLP')?.textContent||'',
+      phv_offset:document.getElementById('phvOff')?.textContent||'',
+      phv_edad_mad:document.getElementById('phvEM')?.textContent||'',
+    });
+  }
+  else if(['M2','M3','M5'].includes(st)) Object.assign(base,{i1:gv('f1'),i2:gv('f2'),i3:gv('f3'),mejor:getBest(3,'max')});
+  else if(['M4','M6'].includes(st)) Object.assign(base,{i1:gv('f1'),i2:gv('f2'),mejor:getBest(2,'min')});
+  else if(st==='M7') Object.assign(base,{etapa:gv('f1'),palier:gv('f2'),vo2max:document.getElementById('navVO2')?.textContent||'',vel:document.getElementById('navVel')?.textContent||''});
+  else if(['F1','F2','F3','F4'].includes(st)) Object.assign(base,{i1:gv('f1'),i2:gv('f2'),i3:gv('f3'),mejor:getBest(3,'max')});
+  else if(st==='F5'){
+    const tsRaw=parseFloat(gv('f3'))||0;
+    Object.assign(base,{
+      fecha_nac:gv('f_fnac'),sexo:gv('f_sexo'),peso:gv('f1'),talla:gv('f2'),
+      talla_sent_leida:tsRaw,talla_sent_corregida:tsRaw>0?(tsRaw-40).toFixed(1):'',
+      phv_lp:document.getElementById('phvLP')?.textContent||'',
+      phv_offset:document.getElementById('phvOff')?.textContent||'',
+      phv_edad_mad:document.getElementById('phvEM')?.textContent||'',
+    });
+  }
+  else if(st==='F6') Object.assign(base,{fms_sentadilla:S.fmsVal});
+  return base;
+}
+
+async function send(data){
+  try{
+    // Pasar el tipo correcto (MASIVA o FOCALIZADA) para que el script consolide correctamente
+    const sheetType = data.tipo || 'MASIVA';
+    await fetch(S.url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({sheet:sheetType,data})});
+    toast('Enviado a Google Sheets ✓','ok'); return true;
+  }catch(e){saveLocal(data);toast('Guardado localmente ✓','ok');return true;}
+}
+function saveLocal(data){
+  const k='etm_local', arr=JSON.parse(localStorage.getItem(k)||'[]');
+  arr.push(data); localStorage.setItem(k,JSON.stringify(arr));
+}
+function markReg(nombre){
+  const k=`reg_${S.station}_${S.jornada?.fecha||'hoy'}`;
+  const arr=JSON.parse(localStorage.getItem(k)||'[]');
+  if(!arr.includes(nombre)) arr.push(nombre);
+  localStorage.setItem(k,JSON.stringify(arr));
+}
+
+/* ══════════════════════════════════════
+   SIGUIENTE
+══════════════════════════════════════ */
+function siguiente(){clearAth();resetForm();showS('s-form');}
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+let _tt;
+function toast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast show'+(type?' '+type:'');
+  clearTimeout(_tt); _tt=setTimeout(()=>{t.className='toast';},3000);
+}
+</script>
+</body>
+</html>
