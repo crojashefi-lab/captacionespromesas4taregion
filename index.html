@@ -360,8 +360,8 @@ table.prog td:first-child{text-align:left;font-weight:600;color:var(--navy);whit
       <div class="card">
         <div class="ct"><span class="ct-bar" style="background:var(--teal)"></span>Cargar nómina</div>
         <div class="field">
-          <label>Pega los nombres <span class="hint">(uno por línea, desde Excel)</span></label>
-          <textarea id="nominaPaste" rows="7" placeholder="Martínez, Carlos&#10;Mardones, Valentina&#10;Pérez, Felipe&#10;..."></textarea>
+          <label>Pega los nombres <span class="hint">(Nombre | Fecha nac | Sexo — desde Excel, separado por Tab)</span></label>
+          <textarea id="nominaPaste" rows="7" placeholder="Martínez Carlos	2012-05-14	Masculino&#10;Pérez Ana	2013-08-22	Femenino&#10;..."></textarea>
         </div>
         <button class="btn btn-teal" onclick="cargarNomina()">⬆ &nbsp;Cargar nómina</button>
       </div>
@@ -579,6 +579,7 @@ table.prog td:first-child{text-align:left;font-weight:600;color:var(--navy);whit
         <div class="cv" id="okCnt">0</div>
       </div>
       <button class="btn btn-teal" onclick="siguiente()">+ &nbsp;Siguiente postulante</button>
+      <button class="btn btn-ghost" style="font-size:13px;color:var(--amber);border-color:var(--amber)" onclick="corregir()">✏️ &nbsp;Corregir este registro</button>
       <button class="btn btn-ghost" onclick="goEval()">Cambiar estación</button>
     </div>
   </div>
@@ -848,14 +849,22 @@ async function cargarNomina(){
   if(!lines.length){toast('Escribe al menos un nombre','err');return;}
   const ex=new Set(S.nomina.map(n=>n.nombre.toLowerCase()));
   let added=0;
-  lines.forEach(nombre=>{
-    if(!ex.has(nombre.toLowerCase())){S.nomina.push({nombre});ex.add(nombre.toLowerCase());added++;}
+  lines.forEach(line=>{
+    const cols=line.split('\t').map(c=>c.trim());
+    const nombre   = cols[0] || '';
+    const fecha_nac= cols[1] || '';   // YYYY-MM-DD o DD-MM-YYYY
+    const sexo     = cols[2] || '';
+    if(!nombre) return;
+    if(!ex.has(nombre.toLowerCase())){
+      S.nomina.push({nombre, fecha_nac, sexo});
+      ex.add(nombre.toLowerCase());
+      added++;
+    }
   });
   localStorage.setItem('etm_nomina',JSON.stringify(S.nomina));
   renderNomina();
   document.getElementById('nominaPaste').value='';
   updRoleInfo();
-  // Publicar al servidor central para que todos los evaluadores la vean
   await publicarConfig();
   toast(`${added} postulantes cargados y publicados ✓`,'ok');
 }
@@ -866,7 +875,10 @@ function renderNomina(){
   c.style.display='block';
   l.innerHTML=S.nomina.map((a,i)=>`
     <div class="nomina-item">
-      <div class="ni-n">${i+1}. ${a.nombre}</div>
+      <div>
+        <div class="ni-n">${i+1}. ${a.nombre}</div>
+        ${a.fecha_nac||a.sexo?`<div style="font-size:11px;color:var(--muted);margin-top:2px">${a.fecha_nac||''}${a.fecha_nac&&a.sexo?' · ':''}${a.sexo||''}</div>`:''}
+      </div>
       <button class="ni-del" onclick="delPost(${i})">✕</button>
     </div>`).join('');
 }
@@ -1035,15 +1047,30 @@ function selAth(nombre, yaRegistrado=false){
       return;
     }
   }
-  S.athlete={nombre};
+  // Buscar datos completos del postulante en la nómina
+  const atletaData = S.nomina.find(a=>a.nombre===nombre) || {nombre};
+  S.athlete = atletaData;
   document.getElementById('selAv').textContent=nombre.charAt(0).toUpperCase();
   document.getElementById('selNm').textContent=nombre;
-  document.getElementById('selMt').textContent=S.jornada?.deporte||S.jornada?.tipo||'';
+  document.getElementById('selMt').textContent=
+    [atletaData.fecha_nac, atletaData.sexo].filter(Boolean).join(' · ') ||
+    S.jornada?.deporte||S.jornada?.tipo||'';
   document.getElementById('selAth').classList.add('show');
   document.getElementById('searchArea').style.display='none';
   document.getElementById('btnGuardar').style.display='flex';
   document.getElementById('srBox').classList.remove('open');
   document.getElementById('srchInput').value='';
+  // Pre-llenar campos PHV si la estación los tiene
+  if(atletaData.fecha_nac){
+    const fnac=document.getElementById('f_fnac');
+    if(fnac&&!fnac.value) fnac.value=atletaData.fecha_nac;
+  }
+  if(atletaData.sexo){
+    const sx=document.getElementById('f_sexo');
+    if(sx&&!sx.value) sx.value=atletaData.sexo;
+  }
+  // Recalcular PHV si ya hay datos
+  if(typeof calcPHV==='function') calcPHV();
 }
 function clearAth(){
   S.athlete=null; S.fmsVal=null;
@@ -1415,6 +1442,30 @@ function markReg(nombre){
    SIGUIENTE
 ══════════════════════════════════════ */
 function siguiente(){clearAth();resetForm();showS('s-form');}
+
+function corregir(){
+  // Vuelve al formulario con el mismo postulante seleccionado
+  // Los campos quedan como estaban para editar y reenviar
+  const nombre = document.getElementById('okName').textContent;
+  showS('s-form');
+  // Restaurar el postulante seleccionado
+  if(nombre && nombre!=='—'){
+    const atletaData = S.nomina.find(a=>a.nombre===nombre) || {nombre};
+    S.athlete = atletaData;
+    document.getElementById('selAv').textContent = nombre.charAt(0).toUpperCase();
+    document.getElementById('selNm').textContent = nombre;
+    document.getElementById('selMt').textContent =
+      [atletaData.fecha_nac, atletaData.sexo].filter(Boolean).join(' · ') ||
+      S.jornada?.deporte||S.jornada?.tipo||'';
+    document.getElementById('selAth').classList.add('show');
+    document.getElementById('searchArea').style.display='none';
+    document.getElementById('btnGuardar').style.display='flex';
+    // Reducir contador porque se va a reenviar
+    S.stCount = Math.max(0, S.stCount-1);
+    document.getElementById('stnN').textContent = S.stCount;
+    toast('Corrige los datos y vuelve a guardar','');
+  }
+}
 
 /* ══════════════════════════════════════
    TOAST
