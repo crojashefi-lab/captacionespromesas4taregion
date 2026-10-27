@@ -589,6 +589,9 @@ table.prog td:first-child{text-align:left;font-weight:600;color:var(--navy);whit
 /* ══════════════════════════════════════
    STATE
 ══════════════════════════════════════ */
+// URL del Apps Script incrustada — todos los dispositivos la usan automáticamente
+const URL_FIJA = 'https://script.google.com/macros/s/AKfycby4TcOtRBBbot8oOHMtoZoYhhTLv8Shy2Qbn3jByTgoajN7ZM1a6TNLXj3SZCa6Kne0vw/exec';
+
 const S = {
   url:'', jornada:null, nomina:[], station:null,
   athlete:null, stCount:0, fmsVal:null,
@@ -598,18 +601,18 @@ const S = {
    INIT
 ══════════════════════════════════════ */
 window.onload = async () => {
-  S.url     = localStorage.getItem('etm_url') || '';
+  // Usar siempre la URL fija (ignorar lo que haya en localStorage de pruebas anteriores)
+  S.url = URL_FIJA;
+  localStorage.setItem('etm_url', URL_FIJA);
   S.nomina  = JSON.parse(localStorage.getItem('etm_nomina') || '[]');
   S.jornada = JSON.parse(localStorage.getItem('etm_jornada') || 'null');
   document.getElementById('jorFecha').value = new Date().toISOString().split('T')[0];
   updConn();
 
-  if (S.url) {
-    // Sincronizar nómina y jornada desde el servidor central
-    await sincronizarConfig();
-    showS('s-role');
-    updRoleInfo();
-  }
+  // Sincronizar nómina y jornada desde el servidor central
+  await sincronizarConfig();
+  showS('s-role');
+  updRoleInfo();
 };
 
 /* ══════════════════════════════════════
